@@ -49,7 +49,7 @@ public class AddNewCarActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.add_car)
-    void onAddCarButtonClick () {
+    void onAddCarButtonClick() {
 
         Car car = new CarBuilder()
                 .setMake(make.getText().toString())
@@ -60,13 +60,19 @@ public class AddNewCarActivity extends AppCompatActivity {
 
         boolean added = databaseOpenHelper.insertCar(car);
 
-        if(added) {
+        if (added) {
             Toast.makeText(this, "Dodano nowy samochod", Toast.LENGTH_LONG).show();
+            make.setText(null);
+            model.setText(null);
+            imageUrl = null;
+            imageView.setImageResource(R.drawable.noimage);
+            year.setText(null);
         }
 
     }
+
     @OnClick(R.id.add_image)
-    void onAddImageButtonClick () {
+    void onAddImageButtonClick() {
 
         View promptView = LayoutInflater.from(this).inflate(R.layout.dialog_prompt, null);
 
