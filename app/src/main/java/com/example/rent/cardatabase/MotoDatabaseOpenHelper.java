@@ -32,7 +32,7 @@ public class MotoDatabaseOpenHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean insertCar (Car car) {
+    public boolean insertCar(Car car) {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(CarsTableContract.COLUMN_MAKE, car.getMake());
@@ -46,11 +46,17 @@ public class MotoDatabaseOpenHelper extends SQLiteOpenHelper {
     }
 
     public Cursor getAllItems() {
-        Cursor cursor = getReadableDatabase().query(CarsTableContract.TABLE_NAME, new String[] {
-               CarsTableContract._ID, CarsTableContract.COLUMN_MAKE, CarsTableContract.COLUMN_MODEL, CarsTableContract.COLUMN_IMAGE, CarsTableContract.COLUMN_YEAR
-
-        }, null, null, null, null, null);
+        Cursor cursor = getReadableDatabase().query(CarsTableContract.TABLE_NAME, null, null, null, null, null, null);
         return cursor;
+    }
+
+    public Cursor searchQuerry(CharSequence constraint) {
+        Cursor cursor = getReadableDatabase().query(CarsTableContract.TABLE_NAME, null, CarsTableContract.COLUMN_MAKE+ " LIKE ?", new String[] {
+
+                constraint.toString() + "%"
+        }, null, null, null);
+        return cursor;
+
     }
 
     @Override
@@ -60,5 +66,6 @@ public class MotoDatabaseOpenHelper extends SQLiteOpenHelper {
             onCreate(db);
         }
     }
+
 
 }

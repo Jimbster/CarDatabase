@@ -2,10 +2,12 @@ package com.example.rent.cardatabase;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ListAdapter;
 import android.widget.TextView;
@@ -29,4 +31,6 @@ public class AutocompleteAdapter extends CursorAdapter implements Filterable {
         TextView textView = (TextView) view.findViewById(R.id.text);
         textView.setText(cursor.getString(cursor.getColumnIndex(CarsTableContract.COLUMN_MAKE)));
     }
+
+
 }
