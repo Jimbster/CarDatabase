@@ -22,6 +22,8 @@ public class MotoDatabaseOpenHelper extends SQLiteOpenHelper {
     private static String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + CarsTableContract.TABLE_NAME;
 
 
+
+
     public MotoDatabaseOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -48,6 +50,23 @@ public class MotoDatabaseOpenHelper extends SQLiteOpenHelper {
     public Cursor getAllItems() {
         Cursor cursor = getReadableDatabase().query(CarsTableContract.TABLE_NAME, null, null, null, null, null, null);
         return cursor;
+    }
+
+    public Car getCarWithId (String id) {
+        Cursor cursor = getReadableDatabase().query(CarsTableContract.TABLE_NAME,null, CarsTableContract._ID + " = ? ", new String[] {id}, null, null, null );
+
+        if (cursor.getCount()>0) {
+            cursor.moveToFirst();
+            Car car = new CarBuilder().setMake(cursor.getString(cursor.getColumnIndex(CarsTableContract.COLUMN_MAKE)))
+                    .setImage(cursor.getString(cursor.getColumnIndex(CarsTableContract.COLUMN_IMAGE)))
+                    .setYear(cursor.getInt(cursor.getColumnIndex(CarsTableContract.COLUMN_YEAR)))
+                    .setModel(cursor.getString(cursor.getColumnIndex(CarsTableContract.COLUMN_MODEL)))
+                    .createCar();
+            cursor.close();
+            return car;
+        }
+        cursor.close();
+        return null;
     }
 
     public Cursor searchQuerry(CharSequence constraint) {

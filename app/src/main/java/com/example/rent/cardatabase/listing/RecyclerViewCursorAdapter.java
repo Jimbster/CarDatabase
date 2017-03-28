@@ -27,6 +27,11 @@ public class RecyclerViewCursorAdapter extends RecyclerView.Adapter<RecyclerView
 
 
     private Cursor cursor;
+    private OnCarItemClickListener onCarItemClickListener;
+
+    public void setOnCarItemClickListener(OnCarItemClickListener onCarItemClickListener) {
+        this.onCarItemClickListener = onCarItemClickListener;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -46,6 +51,16 @@ public class RecyclerViewCursorAdapter extends RecyclerView.Adapter<RecyclerView
         holder.year.setText("Rok produkcji: " + year);
         holder.makeAndModel.setText(make + " " + model);
         Glide.with(holder.imageView.getContext()).load(imageUrl).into(holder.imageView);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onCarItemClickListener != null){
+                    cursor.moveToPosition(position);
+                onCarItemClickListener.onCarItemClick(String.valueOf(cursor.getInt(0)));
+            }
+            }
+        });
     }
 
     @Override
